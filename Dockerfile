@@ -7,4 +7,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "app:create_app()"]
+CMD ["gunicorn", "--worker-class", "eventlet", "--bind", "0.0.0.0:8080", "app:create_app()"]

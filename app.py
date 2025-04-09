@@ -59,6 +59,7 @@ def create_app():
             if message:
                 messages.append(json.loads(message))
 
+        messages.sort(key=lambda x: x["timestamp"])
         return jsonify(messages)
 
     return app
