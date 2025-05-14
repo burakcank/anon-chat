@@ -1,11 +1,12 @@
 <template>
-  <div class="container mx-auto p-4">
+  <div class="min-h-screen container mx-auto p-4 flex flex-col">
     <div class="flex justify-between items-center mb-3">
       <RouterLink :to="{ name: 'Landing' }" class="text-2xl font-medium">Anon Chat</RouterLink>
       <div class="px-3 text-green-600">People: {{ roomClientCount }}</div>
     </div>
-    <div id="chatSection" class="border rounded-lg h-[60vh] overflow-auto">
-      <div v-for="message in chatHistory" :key="message.id" class="p-2" :class="message.role === 'server' ? 'text-blue-400 mr-10' : 'text-right ml-10'">
+    <div id="chatSection" class="grow border rounded-lg overflow-auto">
+      <div v-for="message in chatHistory" :key="message.id" class="p-2"
+        :class="message.role === 'server' ? 'text-blue-400 mr-10' : 'text-right ml-10'">
         <div class="border rounded-lg inline-block p-2 border-gray-700 whitespace-pre-wrap">
           {{ message.message }}
           <div class="text-xs text-gray-600">{{ message.timestamp }}</div>
@@ -13,15 +14,14 @@
       </div>
     </div>
     <form @submit.prevent="handleSendMessage(inputMessage)" v-on:keypress.ctrl.enter="handleSendMessage(inputMessage)">
-      <div class="flex mt-4 w-full">
-        <TextArea
-          class="grow me-4 max-h-100"
-          placeholder="Type your message"
-          v-model="inputMessage"
-          rows="5"
-          maxlength="2000"
-        />
-        <Button :disabled="!inputMessage" type="submit" label="Send" />
+      <div class="flex flex-col mt-4">
+        <TextArea class="max-h-[20vh] min-h-[5vh]" placeholder="Type your message" v-model="inputMessage" rows="4"
+          maxlength="2000" />
+        <div class="flex justify-between py-2 gap-2">
+          <div class="text-xs bg-gray-800 opacity-50 w-full rounded-lg flex items-center p-2">Press Ctrl +
+            Enter to send</div>
+          <Button :disabled="!inputMessage" type="submit" icon="pi pi-send" size="small" class="px-5!" />
+        </div>
       </div>
     </form>
   </div>
