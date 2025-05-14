@@ -85,6 +85,12 @@ const getChatHistory = async () => {
 const handleSendMessage = async (message: string) => {
 	sendMessage(message);
 	inputMessage.value = "";
+
+	// keep the focus on the input field
+	const inputField = document.querySelector("textarea");
+	if (inputField) {
+		(inputField as HTMLTextAreaElement).focus();
+	}
 };
 
 function setupScrollObserver(containerSelector: string) {
@@ -108,4 +114,7 @@ function setupScrollObserver(containerSelector: string) {
 </script>
 
 <style scoped>
+.min-h-screen {
+  padding-bottom: env(safe-area-inset-bottom);
+}
 </style>
