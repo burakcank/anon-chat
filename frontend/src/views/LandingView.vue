@@ -1,5 +1,5 @@
 <template>
-    <div class="p-4 flex items-center justify-center min-h-screen">
+    <div class="h-dvh p-4 flex items-center justify-center">
         <div class="text-center">
             <h1 class="text-4xl mb-10 font-bold text-gray-200">Anonymous Chat</h1>
             <p class="mt-4 text-gray-300">No log records, no tracking, no registration needed.</p>
@@ -26,4 +26,5 @@ const startChat = () => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>

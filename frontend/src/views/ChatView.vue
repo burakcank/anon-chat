@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen container mx-auto p-4 flex flex-col">
+  <div class="h-dvh container mx-auto p-4 flex flex-col">
     <div class="flex justify-between items-center mb-3">
       <RouterLink :to="{ name: 'Landing' }" class="text-2xl font-medium">Anon Chat</RouterLink>
       <div class="px-3 text-green-600">People: {{ roomClientCount }}</div>
@@ -114,7 +114,4 @@ function setupScrollObserver(containerSelector: string) {
 </script>
 
 <style scoped>
-.min-h-screen {
-  padding-bottom: env(safe-area-inset-bottom);
-}
 </style>
