@@ -13,13 +13,20 @@
         </div>
       </div>
     </div>
-    <form @submit.prevent="handleSendMessage(inputMessage)" v-on:keypress.ctrl.enter="handleSendMessage(inputMessage)">
+    <form @submit.prevent="handleSendMessage(inputMessage)">
       <div class="flex flex-col mt-4">
-        <TextArea class="max-h-[20vh] min-h-[5vh]" placeholder="Type your message" v-model="inputMessage" rows="4"
-          maxlength="2000" />
+        <TextArea
+          class="max-h-[20vh] min-h-[5vh]"
+          placeholder="Type your message"
+          v-model="inputMessage"
+          rows="4"
+          maxlength="2000"
+          @keydown="handleKeydown"
+        />
         <div class="flex justify-between py-2 gap-2">
-          <div class="text-xs bg-gray-800 opacity-50 w-full rounded-lg flex items-center p-2">Press Ctrl +
-            Enter to send</div>
+          <div class="text-xs bg-gray-800 opacity-50 w-full rounded-lg flex items-center p-2">
+            <span v-if="!isMobile">Press Ctrl + Enter to send</span>
+          </div>
           <Button :disabled="!inputMessage" type="submit" icon="pi pi-send" size="small" class="px-5!" />
         </div>
       </div>
@@ -45,6 +52,7 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 const $router = useRouter();
 const $route = useRoute();
 const inputMessage = ref("");
+const isMobile = ref(false);
 
 interface ChatMessage {
 	message: string;
@@ -58,7 +66,16 @@ onMounted(async () => {
 	joinRoom(chatRoomId.value);
 	getChatHistory();
 	setupScrollObserver("#chatSection");
+	detectMobile();
 });
+
+const detectMobile = () => {
+	const userAgent = navigator.userAgent || navigator.vendor;
+	isMobile.value =
+		/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(
+			userAgent.toLowerCase(),
+		);
+};
 
 const getChatHistory = async () => {
 	try {
@@ -83,6 +100,7 @@ const getChatHistory = async () => {
 };
 
 const handleSendMessage = async (message: string) => {
+	if (!message.trim()) return;
 	sendMessage(message);
 	inputMessage.value = "";
 
@@ -90,6 +108,13 @@ const handleSendMessage = async (message: string) => {
 	const inputField = document.querySelector("textarea");
 	if (inputField) {
 		(inputField as HTMLTextAreaElement).focus();
+	}
+};
+
+const handleKeydown = (event: KeyboardEvent) => {
+	if (event.ctrlKey && event.key === "Enter") {
+		event.preventDefault();
+		handleSendMessage(inputMessage.value);
 	}
 };
 
