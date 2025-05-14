@@ -44,7 +44,7 @@ import {
 } from "@/composables/socket";
 import Button from "primevue/button";
 import TextArea from "primevue/textarea";
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -67,6 +67,10 @@ onMounted(async () => {
 	getChatHistory();
 	setupScrollObserver("#chatSection");
 	detectMobile();
+});
+
+onUnmounted(() => {
+	chatHistory.value = [];
 });
 
 const detectMobile = () => {
